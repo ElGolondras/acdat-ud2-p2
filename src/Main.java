@@ -75,13 +75,12 @@ public class Main {
         System.out.print("Ingrese la ruta del directorio a crear: ");
         String ruta = sc.nextLine();
         File dir = new File(ruta);
-        boolean err = false;
+        boolean err = true;
         if (dir.exists()) {
             System.out.println("El directorio ya existe");
         } else {
             if (dir.mkdirs()) {
                 System.out.println("Directorio creado");
-                err = true;
             } else {
                 err = false;
             }
