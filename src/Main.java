@@ -137,24 +137,21 @@ public class Main {
             System.out.println("El fichero ya existe");
         } else {
             try {
-                File parentDir = file.getParentFile();
-                if (parentDir != null && !parentDir.exists()) {
+                File padreDir = file.getParentFile();
+                if (padreDir != null && !padreDir.exists()) {
                     System.out.print("El directorio padre no existe. ¿Desea crearlo? (s/n): ");
                     String confirmacion = sc.nextLine();
                     if (confirmacion.equalsIgnoreCase("s")) {
-                        if (!parentDir.mkdirs()) {
+                        if (!padreDir.mkdirs()) {
                             System.out.println("No se pudo crear el directorio padre, verifique la ruta y los permisos");
                             return;
                         }
                     } else {
                         System.out.println("Creación de fichero cancelada");
-                        return;
                     }
                 }
                 if (file.createNewFile()) {
                     System.out.println("Fichero creado");
-                } else {
-                    System.out.println("No se pudo crear el fichero, verifique los permisos");
                 }
             } catch (Exception e) {
                 System.out.println("Error al crear el fichero: " + e.getMessage());
