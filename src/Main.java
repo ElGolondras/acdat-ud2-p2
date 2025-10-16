@@ -76,12 +76,12 @@ public class Main {
         String ruta = sc.nextLine();
         File dir = new File(ruta);
         if (dir.exists()) {
-            System.out.println("El directorio ya existe.");
+            System.out.println("El directorio ya existe");
         } else {
             if (dir.mkdirs()) {
-                System.out.println("Directorio creado exitosamente.");
+                System.out.println("Directorio creado");
             } else {
-                System.out.println("No se pudo crear el directorio. Verifique la ruta y los permisos.");
+                System.out.println("No se pudo crear el directorio verifique la ruta y los permisos");
             }
         }
     }
@@ -96,6 +96,21 @@ public class Main {
      */
     public static void eliminarDirectorio() {
         // TODO: Implementar según los puntos anteriores usando únicamente File.
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Ingrese la ruta del directorio a eliminar: ");
+        String ruta = sc.nextLine();
+        File dir = new File(ruta);
+        if (!dir.exists()) {
+            System.out.println("El directorio no existe");
+        } else if (!dir.isDirectory()) {
+            System.out.println("La ruta no es un directorio");
+        } else {
+            if (dir.delete()) {
+                System.out.println("Directorio eliminado");
+            } else {
+                System.out.println("No se pudo eliminar el directorio, asegúrese de que esté vacío y tenga los permisos necesarios");
+            }
+        }
     }
 
     /**
@@ -109,6 +124,37 @@ public class Main {
      */
     public static void crearFichero() {
         // TODO: Implementar según los puntos anteriores usando únicamente File.
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Ingrese la ruta completa del fichero a crear: ");
+        String ruta = sc.nextLine();
+        File file = new File(ruta);
+        if (file.exists()) {
+            System.out.println("El fichero ya existe");
+        } else {
+            try {
+                File parentDir = file.getParentFile();
+                if (parentDir != null && !parentDir.exists()) {
+                    System.out.print("El directorio padre no existe. ¿Desea crearlo? (s/n): ");
+                    String confirmacion = sc.nextLine();
+                    if (confirmacion.equalsIgnoreCase("s")) {
+                        if (!parentDir.mkdirs()) {
+                            System.out.println("No se pudo crear el directorio padre, verifique la ruta y los permisos");
+                            return;
+                        }
+                    } else {
+                        System.out.println("Creación de fichero cancelada");
+                        return;
+                    }
+                }
+                if (file.createNewFile()) {
+                    System.out.println("Fichero creado");
+                } else {
+                    System.out.println("No se pudo crear el fichero, verifique los permisos");
+                }
+            } catch (Exception e) {
+                System.out.println("Error al crear el fichero: " + e.getMessage());
+            }
+        }
     }
 
     /**
@@ -121,5 +167,26 @@ public class Main {
      */
     public static void eliminarFichero() {
         // TODO: Implementar según los puntos anteriores usando únicamente File.
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Ingrese la ruta del fichero a eliminar: ");
+        String ruta = sc.nextLine();
+        File file = new File(ruta);
+        if (!file.exists()) {
+            System.out.println("El fichero no existe");
+        } else if (!file.isFile()) {
+            System.out.println("La ruta no es un fichero");
+        } else {
+            System.out.print("¿Está seguro de que desea eliminar el fichero? (s/n): ");
+            String confirmacion = sc.nextLine();
+            if (confirmacion.equalsIgnoreCase("s")) {
+                if (file.delete()) {
+                    System.out.println("Fichero eliminado");
+                } else {
+                    System.out.println("No se pudo eliminar el fichero, verifique los permisos");
+                }
+            } else {
+                System.out.println("Eliminación cancelada");
+            }
+        }
     }
 }
